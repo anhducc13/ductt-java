@@ -63,23 +63,44 @@ public class StudenManagement {
         return (s1.getGroup()).equals(s2.getGroup());
     }
 
+    static ArrayList <Student> studentsByGroup(ArrayList <Student> list, String group){
+        ArrayList <Student> studentsByGroup = new ArrayList <Student>();
+        for(Student ele : list){
+            if((ele.getGroup()).equals(group)) studentsByGroup.add(ele);
+        }
+        return studentsByGroup;
+    }
+
+    static void removeStudent(ArrayList <Student> list,String id){
+        for (int i = 0; i < list.size(); ) {
+            String thisId = list.get(i).getId();
+            if (thisId.equals(id)) {
+                list.remove(i);
+            }
+            else i++;
+        }
+    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
-        int x = Integer.parseInt(sc.nextLine());
 
-        Student [] list = new Student[x];
-        // ArrayList<Student> list = new ArrayList<Student>(3);
+        ArrayList <Student> list = new ArrayList <Student>(3);
 
-        for(int i = 0; i < x; i++){
+        for(int i = 0; i < 3; i++){
             String id = sc.nextLine();
             String name = sc.nextLine();
             String group = sc.nextLine();
             String email = sc.nextLine();
-            list[i] = new Student(id,name,group,email);
-           // list.add(sv);
+            Student sv = new Student(id,name,group,email);
+            list.add(sv);
         }
         
+
+        for(Student ele : list){
+            ele.getInfo();
+
+        }
+
+        removeStudent(list, "2");
 
         for(Student ele : list){
             ele.getInfo();
