@@ -83,9 +83,9 @@ public class StudenManagement {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        ArrayList <Student> list = new ArrayList <Student>(3);
+        ArrayList <Student> list = new ArrayList <Student>(4);
 
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 4; i++){
             String id = sc.nextLine();
             String name = sc.nextLine();
             String group = sc.nextLine();
@@ -100,7 +100,7 @@ public class StudenManagement {
 
         }
 
-        removeStudent(list, "2");
+        removeStudent(list, "10");
 
         for(Student ele : list){
             ele.getInfo();
