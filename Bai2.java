@@ -9,6 +9,7 @@ public class Bai2 {
             res[i] = arr[siz-i-1];
         }
         return res;
+        
     }
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);

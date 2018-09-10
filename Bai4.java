@@ -13,6 +13,7 @@ public class Bai4 {
             sum += arr.get(i);
         }
         return sum;
+        
     }
 
     static String balancedSums(List<Integer> arr) {
