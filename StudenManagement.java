@@ -1,5 +1,6 @@
 import java.util.*;
 public class StudenManagement {
+    static StudenManagement sm = new StudenManagement();
 
     static class Student {
         private String id;
@@ -59,19 +60,21 @@ public class StudenManagement {
         }
     }
     
-    static boolean sameGroup(Student s1, Student s2){
+    static ArrayList <Student> list = new ArrayList <Student>(4);
+
+    Boolean sameGroup(Student s1, Student s2){
         return (s1.getGroup()).equals(s2.getGroup());
     }
 
-    static ArrayList <Student> studentsByGroup(ArrayList <Student> list, String group){
-        ArrayList <Student> studentsByGroup = new ArrayList <Student>();
-        for(Student ele : list){
-            if((ele.getGroup()).equals(group)) studentsByGroup.add(ele);
-        }
-        return studentsByGroup;
-    }
+    // void studentsByGroup(){
+    //     ArrayList <Student> studentsByGroup = new ArrayList <Student>();
+    //     for(Student ele : list){
+    //         if((ele.getGroup()).equals(group)) studentsByGroup.add(ele);
+    //     }
+        
+    // }
 
-    static void removeStudent(ArrayList <Student> list,String id){
+    void removeStudent(String id){
         for (int i = 0; i < list.size(); ) {
             String thisId = list.get(i).getId();
             if (thisId.equals(id)) {
@@ -83,7 +86,6 @@ public class StudenManagement {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        ArrayList <Student> list = new ArrayList <Student>(4);
 
         for(int i = 0; i < 4; i++){
             String id = sc.nextLine();
@@ -100,7 +102,7 @@ public class StudenManagement {
 
         }
 
-        removeStudent(list, "10");
+       // sm.removeStudent("10");
 
         for(Student ele : list){
             ele.getInfo();
