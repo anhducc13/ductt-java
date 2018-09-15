@@ -1,8 +1,6 @@
 package dic;
 
-import java.util.Comparator;
-
-public class Word {
+public class Word implements Comparable<Word>{
     private String spelling;
     private String explain;
 
@@ -28,20 +26,17 @@ public class Word {
     }
     
     public Word(String textLineInFile){
-        this(textLineInFile,textLineInFile);
-//        this.spelling = textLineInFile.substring(0,textLineInFile.indexOf('\t'));
-//        this.explain = textLineInFile.substring(textLineInFile.indexOf('\t')+1);
+        this.spelling = textLineInFile.substring(0,textLineInFile.indexOf('\t'));
+        this.explain = textLineInFile.substring(textLineInFile.indexOf('\t')+1);
     }
     
     
     public void printWord(){
         System.out.println("|" + spelling + "\t\t|" + explain);
     }  
-}
 
-class WordComparator implements Comparator<Word> {
-        @Override
-	public int compare(Word w1, Word w2) {
-		return w1.getSpelling().compareTo(w2.getSpelling());
-	}
+    @Override
+    public int compareTo(Word o) {
+        return (spelling.compareTo(o.spelling));
+    }
 }

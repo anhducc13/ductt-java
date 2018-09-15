@@ -9,33 +9,12 @@ public class ListWord {
         this.listWord = listWord;
     }
 
-    public ListWord() {listWord = null;}
+    public ListWord() {  }
     
-    public void addList(Word w){
-        //listWord.add(w);
-        Collections.sort(listWord,new WordComparator());
-        for(Word ele : listWord){
-            ele.printWord();
-        }
+    
+    public void insertWordtoList(Word w) {
+        listWord.add(w);
+       // Collections.sort(listWord);
     }
-    
-    public void showAllWord(){
-        for(Word ele : listWord){
-            ele.printWord();
-        }
-    }
-    
-    
-    public ArrayList <Word> subListWord(String subStr){
-        ArrayList <Word> subList = new ArrayList <>();
-        
-        for(Word ele : listWord){
-            if(ele.getSpelling().indexOf(subStr) == 0){
-                subList.add(ele);
-            }
-        }
-        return subList;
-        
-    }
-    
+       
 }
