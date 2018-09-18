@@ -24,7 +24,6 @@ public class Bai5 {
             else if(diff < minDiff){
                 minDiff = diff;
                 result.clear();
-                // System.out.print(result.size());
                 result.add(arr[i]);
                 result.add(arr[i+1]);
             }

@@ -1,11 +1,6 @@
-import java.util.Scanner;
-import java.util.Arrays;
+import java.util.*;
 
 public class Bai7 {
-    static int binarySearch(int [] arr, int key) {
-        
-        return -1;
-    }
     static void cntThreeSum(int[] arr) {
         int n = arr.length;
         
@@ -50,8 +45,7 @@ public class Bai7 {
             arr[i] = sc.nextInt();
         }
 
-        int result = cntThreeSumFast(arr);
-        System.out.print(result);
+        cntThreeSumFast(arr);
 
         sc.close();
     }

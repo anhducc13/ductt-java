@@ -26,8 +26,8 @@ public class Word implements Comparable<Word>{
     }
     
     public Word(String textLineInFile){
-        this.spelling = textLineInFile.substring(0,textLineInFile.indexOf('\t'));
-        this.explain = textLineInFile.substring(textLineInFile.indexOf('\t')+1);
+        this.spelling = textLineInFile.substring(0,textLineInFile.indexOf("\t"));
+        this.explain = textLineInFile.substring(textLineInFile.indexOf("\t")+1);
     }
     
     

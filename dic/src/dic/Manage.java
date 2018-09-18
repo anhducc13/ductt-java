@@ -2,7 +2,7 @@ package dic;
 
 import java.io.IOException;
 //import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Manage {
     static Scanner sc = new Scanner(System.in);
@@ -11,17 +11,12 @@ public class Manage {
     static ListWord l = new ListWord();
     
     public static void main(String[] args) throws IOException {
+        l.listWord = f.toList();
+        l.insertWordtoList(new Word("hello","xin chào"));
         
-        for(int i = 0; i < 1; i++){
-            System.out.print("a: ");
-            String s = sc.nextLine();
-            
-            System.out.print("b: ");
-            String e = sc.nextLine();
-            Word w = new Word(s,e);
-            l.insertWordtoList(w);
+        for (Word ele : l.listWord) {
+            ele.printWord();
         }
-        
         f.toFile(l.listWord);
         
         
