@@ -33,6 +33,6 @@ public class Word {
     }
 
     public void printWord() {
-        System.out.printf("%-20s%-20s\n",word_taget,word_explain);
+        System.out.printf("%-40s%-40s\n",word_taget,word_explain);
     }
 }

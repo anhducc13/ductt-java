@@ -4,7 +4,7 @@ public class DictionaryCommandline {
     private Scanner sc;
     public void showAllWords() {
         if (!Dictionary.listWord.isEmpty()) {
-            System.out.printf("%-4s%c%-20s%c%-20s\n","No",'|',"English",'|',"Vietnamese");
+            System.out.printf("%-4s%c%-40s%c%-40s\n","No",'|',"English",'|',"Vietnamese");
             int i = 1;
             for (Word ele:
                     Dictionary.listWord) {
@@ -22,7 +22,7 @@ public class DictionaryCommandline {
     }
 
     public void dictionaryAdvanced() {
-        DicMana.insertFromFile();
+        DicMana.insertFromSQL();
         showAllWords();
         DicMana.dictionaryLookup();
     }
@@ -57,9 +57,9 @@ public class DictionaryCommandline {
         }
     }
 
-    public static void main(String[] args) {
-        DictionaryCommandline DicCom = new DictionaryCommandline();
-        DicCom.dictionaryBasic();
-    }
+//    public static void main(String[] args) {
+//        DictionaryCommandline DicCom = new DictionaryCommandline();
+//        DicCom.dictionaryBasic();
+//    }
 
 }

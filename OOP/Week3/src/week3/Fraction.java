@@ -1,6 +1,6 @@
 package week3;
 
-public class Fraction {
+class Fraction {
     private int numerator;
     private int denominator;
 
@@ -70,5 +70,11 @@ public class Fraction {
     // so sánh bằng 2 phân số
     public boolean equals (Fraction otherFrac) {
         return (this.Abstract(otherFrac).numerator == 0);
+    }
+    
+    public static void main(String[] args) {
+        Fraction f1 = new Fraction(1,2);
+        Fraction f2 = new Fraction(2,4);
+        System.out.println(f1.equals(f2));
     }
 }

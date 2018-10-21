@@ -13,22 +13,21 @@ public class Bai4 {
             sum += arr.get(i);
         }
         return sum;
-        
+
     }
 
     static String balancedSums(List<Integer> arr) {
         int size = arr.size(), i = 0;
         int leftSum = 0, rightSum = sumList(arr) - arr.get(0);
-
         do {
             if (leftSum == rightSum) {
                 return "YES";
             }
             i++;
-            leftSum += arr.get(i-1);
+            leftSum += arr.get(i - 1);
             rightSum -= arr.get(i);
-        } while (i < size-1);
-        
+        } while (i < size - 1);
+
         return "NO";
     }
 

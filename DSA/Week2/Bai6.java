@@ -15,7 +15,10 @@ public class Bai6 {
                 i++;
                 continue;
             }
+
+
             for(int j = i+1; j < sz; j++){
+
                 int diff = arr[j] - arr[i];
                 if(diff == k){
                     cntPair++;

@@ -1,42 +1,43 @@
 package dic;
 
-public class Word implements Comparable<Word>{
-    private String spelling;
-    private String explain;
+public class Word {
+    private String word_taget;
+    private String word_explain;
+    
+    public Word() { }
+    
 
-    public String getSpelling() {
-        return spelling;
-    }
-
-    public void setSpelling(String spelling) {
-        this.spelling = spelling;
-    }
-
-    public String getExplain() {
-        return explain;
-    }
-
-    public void setExplain(String explain) {
-        this.explain = explain;
-    }
-
-    public Word(String spelling, String explain) {
-        this.spelling = spelling;
-        this.explain = explain;
+    public Word(String word_taget, String word_explain) {
+        this.word_taget = word_taget;
+        this.word_explain = word_explain;
     }
     
-    public Word(String textLineInFile){
-        this.spelling = textLineInFile.substring(0,textLineInFile.indexOf("\t"));
-        this.explain = textLineInFile.substring(textLineInFile.indexOf("\t")+1);
+    public Word(Word w) {
+        this(w.word_taget,w.word_explain);
     }
-    
-    
-    public void printWord(){
-        System.out.println("|" + spelling + "\t\t|" + explain);
-    }  
 
-    @Override
-    public int compareTo(Word o) {
-        return (spelling.compareTo(o.spelling));
+    public Word(String lineInFile) {
+        this.word_taget = lineInFile.substring(0,lineInFile.indexOf("\t"));
+        this.word_explain = lineInFile.substring(lineInFile.indexOf("\t")+1);
+    }
+
+    public String getWord_taget() {
+        return word_taget;
+    }
+
+    public void setWord_taget(String word_taget) {
+        this.word_taget = word_taget;
+    }
+
+    public String getWord_explain() {
+        return word_explain;
+    }
+
+    public void setWord_explain(String word_explain) {
+        this.word_explain = word_explain;
+    }
+
+    public void printWord() {
+        System.out.printf("%-40s%-40s\n",word_taget,word_explain);
     }
 }

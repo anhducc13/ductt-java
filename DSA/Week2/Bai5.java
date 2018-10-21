@@ -15,17 +15,16 @@ public class Bai5 {
         result.add(arr[0]);
         result.add(arr[1]);
 
-        for(int i = 1; i < sz-1; i++){
-            int diff = arr[i+1] - arr[i];
-            if(diff == minDiff){
+        for (int i = 1; i < sz - 1; i++) {
+            int diff = arr[i + 1] - arr[i];
+            if (diff == minDiff) {
                 result.add(arr[i]);
-                result.add(arr[i+1]);
-            }
-            else if(diff < minDiff){
+                result.add(arr[i + 1]);
+            } else if (diff < minDiff) {
                 minDiff = diff;
                 result.clear();
                 result.add(arr[i]);
-                result.add(arr[i+1]);
+                result.add(arr[i + 1]);
             }
         }
 
@@ -35,7 +34,7 @@ public class Bai5 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int [] arr = new int[n];
+        int[] arr = new int[n];
 
         for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
@@ -43,7 +42,7 @@ public class Bai5 {
 
         ArrayList<Integer> result = closestNumbers(arr);
 
-        for(Integer ele: result){
+        for (Integer ele : result) {
             System.out.print(ele + " ");
         }
 
