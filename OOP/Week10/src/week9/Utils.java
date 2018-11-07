@@ -6,7 +6,8 @@ import java.io.*;
  *
  * @author Ductt
  */
-public class FileAction {
+public class Utils {
+//    public static void readCntentFromFile(String path) {};
     public static String readContentFromFile(String path) {
         String s = "";
         try {
@@ -32,17 +33,18 @@ public class FileAction {
             File file = new File(path);
             FileWriter writer = new FileWriter(file, override);
             PrintWriter out = new PrintWriter(writer);
-            out.println(text);
+            out.println(text + "\n");
             System.out.println("Success!");
             out.close();
             writer.close();
         } catch (IOException ex) {
+            int a = 0;/**/int b = 10; /*  */int c = 100;
             System.out.println("Fail!");
-            System.out.println(ex);
+            System.out.println(ex); 
         }
     }
 
-   /* public static File findFileByName(String folderPath, String fileName) {
+    public static File findFileByName(String folderPath, String fileName) {
         File file = new File(folderPath);
         File[] matchingFiles = file.listFiles(new FilenameFilter() {
             @Override
@@ -53,10 +55,8 @@ public class FileAction {
         return matchingFiles.length != 0 ? matchingFiles[0] : null;
     }
 
-   
-*//*   
-   public static void main(String[] args) {
-        
-        System.out.println(findFileByName("E:\\", "ductt.txt"));
-    } */
+//    public static void main(String[] args) {
+//        
+//        System.out.println(findFileByName("E:\\", "ductt.txt"));
+//    }
 }
