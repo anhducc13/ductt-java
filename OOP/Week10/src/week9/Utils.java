@@ -7,7 +7,8 @@ import java.io.*;
  * @author Ductt
  */
 public class Utils {
-//    public static void readCntentFromFile(String path) {};
+    static int x;
+    public static String y = "sfsdds";
     public static String readContentFromFile(String path) {
         String s = "";
         try {
@@ -55,8 +56,12 @@ public class Utils {
         return matchingFiles.length != 0 ? matchingFiles[0] : null;
     }
 
-//    public static void main(String[] args) {
-//        
+    public static void main(String[] args) {
+        String s = "public static File findFileByName(String folderPath)";
+        String v = ".*findFileByName\\(String.*\\)";
+        
+        
+        System.out.println(s.matches(v));
 //        System.out.println(findFileByName("E:\\", "ductt.txt"));
-//    }
+    }
 }
