@@ -7,8 +7,10 @@ import java.io.*;
  * @author Ductt
  */
 public class Utils {
+
     static int x;
     public static String y = "sfsdds";
+
     public static String readContentFromFile(String path) {
         String s = "";
         try {
@@ -16,7 +18,7 @@ public class Utils {
             FileReader reader = new FileReader(file);
             BufferedReader in = new BufferedReader(reader);
             String r = in.readLine();
-            while(r != null) {
+            while (r != null) {
                 s += (r + "\n");
                 r = in.readLine();
             }
@@ -39,9 +41,12 @@ public class Utils {
             out.close();
             writer.close();
         } catch (IOException ex) {
-            int a = 0;/**/int b = 10; /*  */int c = 100;
+            int a = 0;/**/
+            int b = 10;
+            /*  */
+            int c = 100;
             System.out.println("Fail!");
-            System.out.println(ex); 
+            System.out.println(ex);
         }
     }
 
@@ -59,8 +64,7 @@ public class Utils {
     public static void main(String[] args) {
         String s = "public static File findFileByName(String folderPath)";
         String v = ".*findFileByName\\(String.*\\)";
-        
-        
+
         System.out.println(s.matches(v));
 //        System.out.println(findFileByName("E:\\", "ductt.txt"));
     }

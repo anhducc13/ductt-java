@@ -1,23 +1,19 @@
 package week10;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import week9.Utils;
+import java.io.*;
+import java.util.*;
+import java.util.regex.*;
 
 public class Prac1 {
 
+    // Lấy toàn bộ code của file không lấy comment
     public static String getCode(String path) {
         String code = "";
         try {
             String temp;
             BufferedReader br = new BufferedReader(new FileReader(path));
             while ((temp = br.readLine()) != null) {
+                // Loại các comment "//"
                 if (temp.trim().startsWith("//")) {
                 } else if (temp.contains("//")) {
                     code = code + temp.substring(0, temp.indexOf("//")) + "\n";
@@ -26,6 +22,7 @@ public class Prac1 {
                 }
             }
 
+            // Loại các comment "/**/"
             int x = code.indexOf("/*");
             while (x != -1) {
                 int y = code.indexOf("*/");
@@ -41,6 +38,7 @@ public class Prac1 {
 
                 x = code.indexOf("/*");
             }
+            br.close();
         } catch (FileNotFoundException ex) {
             System.out.println("File Not Found");
         } catch (IOException ex) {
@@ -50,63 +48,73 @@ public class Prac1 {
         return code;
     }
 
-    public static String getFunc(String code) {
-        String func = "";
-        int x = code.indexOf("static");
-
-        int first;
-        int last;
-        if (x != -1) {
-            while (x != -1 && code.charAt(x) != '\n') {
-                x--;
-            }
-            x++;
-            first = x;
-            last = x;
-            int cntOpen = 0;
-            int cntClose = 0;
-            while (x < code.length()) {
-                if (code.charAt(x) == '{') {
-                    cntOpen++;
-                }
-                if (code.charAt(x) == '}') {
-                    cntClose++;
-                }
-                if (cntOpen == 0 && cntClose == 0 && code.charAt(x) == ';'
-                        || cntOpen != 0 && cntClose != 0 && cntOpen == cntClose) {
-                    last = x;
-                    break;
-                }
-                x++;
-            }
-            func = code.substring(first, last + 1);
-        }
-        return func;
-    }
-
-    public static List<String> getAllFunctions(String path) {
+    // Lấy toàn bộ tên hàm (dòng đầu tiên của hàm) có chứa biểu thức chính quy
+    public static List<String> getNameFuncs(String pattern, String path) {
         ArrayList<String> funcs = new ArrayList<>();
-        String code = getCode(path);
-        while (true) {
-            String func = getFunc(code);
-            if (func.equals("")) {
-                break;
-            } else {
-                if (func.contains("{")) {
-                    funcs.add(func);
-                }
-                code = code.replace(func, "");
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(getCode(path));
+
+        while (m.find()) {
+            funcs.add(m.group(0));
+        }
+        for (int i = 0; i < funcs.size(); i++) {
+            String ele = funcs.get(i).trim();
+            if (ele.charAt(ele.length() - 1) == ';') {
+                funcs.remove(i);
+                i--;
             }
         }
+
         return funcs;
     }
 
-    public static String findFunctionByName(String name, String code) {
+    // Lấy nội dung của hàm có tên cho trước
+    public static String getFunc(String nameFunc, String path) {
+        String func;
+        String tmp = getCode(path);
+
+        int first = tmp.indexOf(nameFunc);
+        int last = first;
+        int cntOpen = 0;
+        int cntClose = 0;
+        int i = first;
+        while (i < tmp.length()) {
+            if (tmp.charAt(i) == '{') {
+                cntOpen++;
+            }
+            if (tmp.charAt(i) == '}') {
+                cntClose++;
+            }
+            if (cntOpen != 0 && cntClose != 0 && cntOpen == cntClose) {
+                last = i;
+                break;
+            }
+            i++;
+        }
+
+        func = tmp.substring(first, last + 1);
+        return func;
+    }
+
+    // Lấy tất cả hàm static 
+    public static List<String> getAllFunctions(String path) {
+        List<String> funcs = new ArrayList<>();
+        List<String> nameFunc = getNameFuncs(path,".*static.*");
+        String code = getCode(path);
+        nameFunc.forEach((ele) -> {
+            funcs.add(getFunc(ele, code));
+        });
+        
+        return funcs;
+    }
+
+    // Tìm hàm có tên theo yêu cầu "name(<Kiểu dữ liệu>,...)
+    public static String findFunctionByName(String name, String path) {
         String func = "";
+        
         if (!name.contains("(")) {
             return "";
         }
-
         String nameFunc = name.substring(0, name.indexOf("(")).trim();
         String varFunc = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
         String[] vars;
@@ -118,49 +126,19 @@ public class Prac1 {
             vars = new String[1];
             vars[0] = varFunc.trim();
         }
-
-        String tmp = "(.*)";
+        String ap = ".*";
         for (int i = 0; i < vars.length; i++) {
-            tmp = tmp + vars[i] + "(.*)";
+            ap = ap + vars[i] + ".*";
         }
 
-        String pattern = "(.*)" + nameFunc + "(" + tmp + ")";
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(code);
-
-        if (m.find()) {
-
-            int first = code.indexOf(m.group(0));
-            int last = first;
-            int cntOpen = 0;
-            int cntClose = 0;
-            int i = first;
-            while (i < code.length()) {
-                if (code.charAt(i) == '{') {
-                    cntOpen++;
-                }
-                if (code.charAt(i) == '}') {
-                    cntClose++;
-                }
-                if (cntOpen != 0 && cntClose != 0 && cntOpen == cntClose) {
-                    last = i;
-                    break;
-                }
-                i++;
-            }
-
-            func = code.substring(first, last + 1);
-        }
-        return func;
+        String pattern = ".*" + nameFunc + "(" + ap + ")";
+        
+        List listNameFunc = getNameFuncs(pattern, path);
+        
+        return listNameFunc.isEmpty() ? "" : getFunc((String)listNameFunc.get(0), path);
     }
 
     public static void main(String[] args) {
-        String code = getCode("E:\\Hoc_Tap\\OOP\\THOOP\\ductt-java\\OOP\\Week10\\src\\week9\\Utils.java");
-//        List list = getAllFunctions("E:\\Hoc_Tap\\OOP\\THOOP\\ductt-java\\OOP\\Week10\\src\\week9\\Utils.java");
-//        System.out.println(list.size());
-//        list.forEach((ele) -> {
-//            Utils.writeContentToFile((String)ele, "E:\\ductt111.txt", true);
-//        });
-        Utils.writeContentToFile(findFunctionByName("findFileByName(String,String)", code), "E:\\ductt111.txt", false);
+        System.out.println(findFunctionByName("findFileBygName(String, String)", "E:\\Hoc_Tap\\OOP\\THOOP\\ductt-java\\OOP\\Week10\\src\\week9\\Utils.java"));
     }
 }
