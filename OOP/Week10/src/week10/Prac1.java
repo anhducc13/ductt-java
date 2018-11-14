@@ -44,15 +44,14 @@ public class Prac1 {
         } catch (IOException ex) {
             System.out.println("Fail Read File");
         }
-
         return code;
     }
 
     // Lấy toàn bộ tên hàm (dòng đầu tiên của hàm) có chứa biểu thức chính quy
-    public static List<String> getNameFuncs(String pattern, String path) {
+    public static List<String> getNameFuncs(String pattern, String code) {
         ArrayList<String> funcs = new ArrayList<>();
         Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(getCode(path));
+        Matcher m = r.matcher(code);
 
         while (m.find()) {
             funcs.add(m.group(0));
@@ -69,9 +68,9 @@ public class Prac1 {
     }
 
     // Lấy nội dung của hàm có tên cho trước
-    public static String getFunc(String nameFunc, String path) {
+    public static String getFunc(String nameFunc, String code) {
         String func;
-        String tmp = getCode(path);
+        String tmp = code;
 
         int first = tmp.indexOf(nameFunc);
         int last = first;
@@ -97,10 +96,9 @@ public class Prac1 {
     }
 
     // Lấy tất cả hàm static 
-    public static List<String> getAllFunctions(String path) {
+    public static List<String> getAllFunctions(String code) {
         List<String> funcs = new ArrayList<>();
-        List<String> nameFunc = getNameFuncs(path,".*static.*");
-        String code = getCode(path);
+        List<String> nameFunc = getNameFuncs(".*static.*",code);
         nameFunc.forEach((ele) -> {
             funcs.add(getFunc(ele, code));
         });
@@ -139,6 +137,12 @@ public class Prac1 {
     }
 
     public static void main(String[] args) {
-        System.out.println(findFunctionByName("findFileBygName(String, String)", "E:\\Hoc_Tap\\OOP\\THOOP\\ductt-java\\OOP\\Week10\\src\\week9\\Utils.java"));
+        String path = "E:\\Hoc_Tap\\OOP\\THOOP\\ductt-java\\OOP\\Week10\\src\\week9\\Utils.java";
+        List<String> list = getAllFunctions(getCode(path));
+        System.out.println(list.size());
+        for(String ele : list) {
+            System.out.println(ele);
+        }
+//        System.out.println(findFunctionByName("findFileByName(String, String)", path));
     }
 }

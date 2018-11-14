@@ -3,37 +3,37 @@ package week10;
 import java.util.Random;
 
 public class Prac2 {
-    
-    public static double [] randomArr(int n, double min, double max) {
-        double [] arr = new double[n];
+
+    public static double[] randomArr(int n, double min, double max) {
+        double[] arr = new double[n];
         Random r = new Random();
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             double num = min + (max - min) * r.nextDouble();
-            arr[i] = Math.round(num*100)/100.00;
+            arr[i] = Math.round(num * 100) / 100.00;
         }
-        
+
         return arr;
     }
-    
-    public static void bubbleSort(double [] arr) {
+
+    public static void bubbleSort(double[] arr) {
         int length = arr.length;
-        for(int i = 0; i < length-1; i++) {
-            for(int j = i+ 1; j < length; j++) {
-                if(arr[i] > arr[j]) {
-                    double tmp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = tmp;
+        for (int i = 0; i < length - 1; i++) {
+            for (int j = 0; j < length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    double tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
                 }
             }
         }
     }
-    
+
     public static void main(String[] args) {
-        double [] arr = randomArr(1000, -100, 100);
+        double[] arr = randomArr(10, -100, 100);
         bubbleSort(arr);
-        for(double ele : arr) {
+        for (double ele : arr) {
             System.out.println(ele);
         }
-        
+
     }
 }
