@@ -1,8 +1,5 @@
 package uet.oop.bomberman.input;
 
-import uet.oop.bomberman.audio.Audio;
-
-import javax.sound.sampled.Clip;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

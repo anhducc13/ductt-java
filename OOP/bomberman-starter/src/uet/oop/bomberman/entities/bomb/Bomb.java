@@ -31,18 +31,20 @@ public class Bomb extends AnimatedEntitiy {
 
     @Override
     public void update() {
-        if (_timeToExplode > 0)
+        if (_timeToExplode > 0) {
             _timeToExplode--;
-        else {
+        } else {
             if (!_exploded) {
                 explode();
-            } else
+            } else {
                 updateFlames();
+            }
 
-            if (_timeAfter > 0)
+            if (_timeAfter > 0) {
                 _timeAfter--;
-            else
+            } else {
                 remove();
+            }
         }
 
         animate();
@@ -53,8 +55,9 @@ public class Bomb extends AnimatedEntitiy {
         if (_exploded) {
             _sprite = Sprite.bomb_exploded2;
             renderFlames(screen);
-        } else
+        } else {
             _sprite = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, _animate, 60);
+        }
 
         int xt = (int) _x << 4;
         int yt = (int) _y << 4;
@@ -82,11 +85,12 @@ public class Bomb extends AnimatedEntitiy {
 
         // @todo: xử lý khi Character đứng tại vị trí Bomb
         Character character = _board.getCharacterAtExcluding((int) _x, (int) _y, null);
-        if (character != null) character.kill();
+        if (character != null) {
+            character.kill();
+        }
 
         // @todo: tạo các Flame
         // @todo: radius flame.
-
         int radius = Game.getBombRadius();
         Flame flame0 = new Flame((int) _x, (int) _y, 0, radius, _board);
         Flame flame1 = new Flame((int) _x, (int) _y, 1, radius, _board);
@@ -98,12 +102,18 @@ public class Bomb extends AnimatedEntitiy {
     }
 
     public FlameSegment flameAt(int x, int y) {
-        if (!_exploded) return null;
+        if (!_exploded) {
+            return null;
+        }
 
         for (int i = 0; i < _flames.length; i++) {
-            if (_flames[i] == null) return null;
+            if (_flames[i] == null) {
+                return null;
+            }
             FlameSegment e = _flames[i].flameSegmentAt(x, y);
-            if (e != null) return e;
+            if (e != null) {
+                return e;
+            }
         }
 
         return null;
@@ -112,18 +122,20 @@ public class Bomb extends AnimatedEntitiy {
     @Override
     public boolean collide(Entity e) {
         // TODO: xử lý khi Bomber đi ra sau khi vừa đặt bom (_allowedToPassThru)
-        if(e instanceof Bomber) {
+        if (e instanceof Bomber) {
             double diffX = e.getX() - Coordinates.tileToPixel(getX());
             double diffY = e.getY() - Coordinates.tileToPixel(getY());
 
-            if(!(diffX >= -10 && diffX < 16 && diffY >= 1 && diffY <= 28)) { // differences to see if the player has moved out of the bomb, tested values
+            if (!(diffX >= -10 && diffX < 16 && diffY >= 1 && diffY <= 28)) { // differences to see if the player has moved out of the bomb, tested values
                 _allowedToPassThru = false;
             }
 
             return _allowedToPassThru;
         }
         // @todo: xử lý va chạm với Flame của Bomb khác
-        if (e instanceof Flame && !_exploded) explode();
+        if (e instanceof Flame && !_exploded) {
+            explode();
+        }
 
         return false;
     }

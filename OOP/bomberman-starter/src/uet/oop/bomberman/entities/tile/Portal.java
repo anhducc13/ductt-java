@@ -1,6 +1,9 @@
 package uet.oop.bomberman.entities.tile;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.audio.AudioGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
@@ -26,6 +29,12 @@ public class Portal extends Tile {
             if((int)getX() == Coordinates.pixelToTile(((Bomber) e).getCenterX()) &&
                     (int)getY() == Coordinates.pixelToTile(((Bomber) e).getCenterY())-1) {
                 if (_board.detectNoEnemies()) {
+                    try {
+                        AudioGame.playLevelComplete();
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+                    
                     _board.nextLevel();
                 }
             }

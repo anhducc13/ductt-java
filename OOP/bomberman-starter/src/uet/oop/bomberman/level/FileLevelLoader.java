@@ -27,8 +27,6 @@ public class FileLevelLoader extends LevelLoader {
      * Ma trận chứa thông tin bản đồ, mỗi phần tử lưu giá trị kí tự đ�?c được từ
      * ma trận bản đồ trong tệp cấu hình
      */
-    
-
     public FileLevelLoader(Board board, int level) throws LoadLevelException {
         super(board, level);
     }
@@ -43,11 +41,13 @@ public class FileLevelLoader extends LevelLoader {
             BufferedReader br = new BufferedReader(fr);
             String str = br.readLine();
             int line = 0;
-            while (!str.equals("")) {
+            while (str != null) {
                 line++;
                 s.add(str);
                 str = br.readLine();
             }
+            br.close();
+            fr.close();
         } catch (FileNotFoundException ex) {
         } catch (IOException ex) {
         }
@@ -62,6 +62,7 @@ public class FileLevelLoader extends LevelLoader {
                 _map[i][j] = s.get(i + 1).charAt(j);
             }
         }
+
     }
 
     @Override
@@ -132,9 +133,7 @@ public class FileLevelLoader extends LevelLoader {
                         LayeredEntity layer = new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),
                                 new Brick(x, y, Sprite.brick));
-                        if (_board.isItemUsed(x, y, _level) == false) {
-                            layer.addBeforeTop(new BombItem(x, y, _level, Sprite.powerup_bombs));
-                        }
+                        layer.addBeforeTop(new BombItem(x, y, _level, Sprite.powerup_bombs));
                         _board.addEntity(pos, layer);
                         break;
 
@@ -142,19 +141,18 @@ public class FileLevelLoader extends LevelLoader {
                         layer = new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),
                                 new Brick(x, y, Sprite.brick));
-                        if (_board.isItemUsed(x, y, _level) == false) {
-                            layer.addBeforeTop(new SpeedItem(x, y, _level, Sprite.powerup_speed));
-                        }
+
+                        layer.addBeforeTop(new SpeedItem(x, y, _level, Sprite.powerup_speed));
                         _board.addEntity(pos, layer);
                         break;
 
                     case 'f':
+                        System.out.println("xvscv");
                         layer = new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),
                                 new Brick(x, y, Sprite.brick));
-                        if (_board.isItemUsed(x, y, _level) == false) {
-                            layer.addBeforeTop(new FlameItem(x, y, _level, Sprite.powerup_flames));
-                        }
+
+                        layer.addBeforeTop(new FlameItem(x, y, _level, Sprite.powerup_flames));
                         _board.addEntity(pos, layer);
                         break;
 
@@ -166,5 +164,4 @@ public class FileLevelLoader extends LevelLoader {
             }
         }
     }
-
 }

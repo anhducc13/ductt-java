@@ -24,6 +24,7 @@ import java.util.List;
  * Quản lý thao tác điều khiển, load level, render các màn hình của game
  */
 public class Board implements IRender {
+
     protected LevelLoader _levelLoader;
     protected Game _game;
     protected Keyboard _input;
@@ -33,6 +34,7 @@ public class Board implements IRender {
     public List<Character> _characters = new ArrayList<>();
     protected List<Bomb> _bombs = new ArrayList<>();
     private List<Message> _messages = new ArrayList<>();
+    boolean loadAgain = false;
 
     private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused
 
@@ -46,6 +48,7 @@ public class Board implements IRender {
         _screen = screen;
 
         loadLevel(1); //start in level 1
+
     }
 
     @Override
@@ -64,13 +67,17 @@ public class Board implements IRender {
 
         for (int i = 0; i < _characters.size(); i++) {
             Character a = _characters.get(i);
-            if (a.isRemoved()) _characters.remove(i);
+            if (a.isRemoved()) {
+                _characters.remove(i);
+            }
         }
     }
 
     @Override
     public void render(Screen screen) {
-        if (_game.isPaused()) return;
+        if (_game.isPaused()) {
+            return;
+        }
 
         //only render the visible part of screen
         int x0 = Screen.xOffset >> 4; //tile precision, -> left X
@@ -90,12 +97,18 @@ public class Board implements IRender {
     }
 
     public void handleInputPaused() {
-        if (_screenToShow == 2) return;
+        if (_screenToShow == 2) {
+            return;
+        }
 
         if (_input.enter) {
             _game.play();
-            if (_screenToShow == 3) AudioGame.resumeAudioEffect();
-            if (_screenToShow == 1) resetGame();
+            if (_screenToShow == 3) {
+                AudioGame.resumeAudioEffect();
+            }
+            if (_screenToShow == 1) {
+                resetGame();
+            }
         }
     }
 
@@ -107,23 +120,34 @@ public class Board implements IRender {
     private void resetProperties() {
         _points = Game.POINTS;
         _lefts = Game.LEFTS;
-        
+
         Game.bomberSpeed = 1.0;
         Game.bombRadius = 1;
         Game.bombRate = 1;
     }
 
     public void restartLevel() {
-        loadLevel(_levelLoader.getLevel());
+        Game.bombRate = 1;
+        Game.bombRadius = 1;
+        Game.bomberSpeed = 1.0;
+        try {
+            loadLevel(_levelLoader.getLevel());
+        } catch (Exception e) {
+            System.out.println("Win");
+        }
     }
 
     public void nextLevel() {
+        Game.bombRate = Game._BombBeforeNextLevel;
+        Game.bombRadius = Game.getBombRadius();
+        Game.bomberSpeed = Game.getBomberSpeed();
         loadLevel(_levelLoader.getLevel() + 1);
     }
 
     public void loadLevel(int level) {
         _time = Game.TIME;
         _screenToShow = 2;
+
         _game.resetScreenDelay();
         _game.pause();
         _characters.clear();
@@ -133,7 +157,6 @@ public class Board implements IRender {
         try {
             _levelLoader = new FileLevelLoader(this, level);
             _entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
-
             _levelLoader.createEntities();
         } catch (LoadLevelException e) {
             endGame();
@@ -141,8 +164,9 @@ public class Board implements IRender {
     }
 
     protected void detectEndGame() {
-        if (_time <= 0)
+        if (_time <= 0) {
             restartLevel();
+        }
     }
 
     public void endGame() {
@@ -152,8 +176,9 @@ public class Board implements IRender {
     }
 
     protected void detectPaused() {
-        if (_input.back)
+        if (_input.back) {
             pausedGame();
+        }
     }
 
     public void pausedGame() {
@@ -166,8 +191,9 @@ public class Board implements IRender {
     public boolean detectNoEnemies() {
         int total = 0;
         for (int i = 0; i < _characters.size(); i++) {
-            if (_characters.get(i) instanceof Bomber == false)
+            if (_characters.get(i) instanceof Bomber == false) {
                 ++total;
+            }
         }
 
         return total == 0;
@@ -194,13 +220,19 @@ public class Board implements IRender {
         Entity res = null;
 
         res = getFlameSegmentAt((int) x, (int) y);
-        if (res != null) return res;
+        if (res != null) {
+            return res;
+        }
 
         res = getBombAt(x, y);
-        if (res != null) return res;
+        if (res != null) {
+            return res;
+        }
 
         res = getCharacterAtExcluding((int) x, (int) y, m);
-        if (res != null) return res;
+        if (res != null) {
+            return res;
+        }
 
         res = getEntityAt((int) x, (int) y);
 
@@ -216,8 +248,9 @@ public class Board implements IRender {
         Bomb b;
         while (bs.hasNext()) {
             b = bs.next();
-            if (b.getX() == (int) x && b.getY() == (int) y)
+            if (b.getX() == (int) x && b.getY() == (int) y) {
                 return b;
+            }
         }
 
         return null;
@@ -230,8 +263,9 @@ public class Board implements IRender {
         while (itr.hasNext()) {
             cur = itr.next();
 
-            if (cur instanceof Bomber)
+            if (cur instanceof Bomber) {
                 return (Bomber) cur;
+            }
         }
 
         return null;
@@ -294,15 +328,17 @@ public class Board implements IRender {
     protected void renderCharacter(Screen screen) {
         Iterator<Character> itr = _characters.iterator();
 
-        while (itr.hasNext())
+        while (itr.hasNext()) {
             itr.next().render(screen);
+        }
     }
 
     protected void renderBombs(Screen screen) {
         Iterator<Bomb> itr = _bombs.iterator();
 
-        while (itr.hasNext())
+        while (itr.hasNext()) {
             itr.next().render(screen);
+        }
     }
 
     public void renderMessages(Graphics g) {
@@ -317,48 +353,60 @@ public class Board implements IRender {
     }
 
     protected void updateEntities() {
-        if (_game.isPaused()) return;
+        if (_game.isPaused()) {
+            return;
+        }
         for (int i = 0; i < _entities.length; i++) {
             _entities[i].update();
         }
     }
 
     protected void updateCharacters() {
-        if (_game.isPaused()) return;
+        if (_game.isPaused()) {
+            return;
+        }
         Iterator<Character> itr = _characters.iterator();
 
-        while (itr.hasNext() && !_game.isPaused())
+        while (itr.hasNext() && !_game.isPaused()) {
             itr.next().update();
+        }
     }
 
     protected void updateBombs() {
-        if (_game.isPaused()) return;
+        if (_game.isPaused()) {
+            return;
+        }
         Iterator<Bomb> itr = _bombs.iterator();
 
-        while (itr.hasNext())
+        while (itr.hasNext()) {
             itr.next().update();
+        }
     }
 
     protected void updateMessages() {
-        if (_game.isPaused()) return;
+        if (_game.isPaused()) {
+            return;
+        }
         Message m;
         int left;
         for (int i = 0; i < _messages.size(); i++) {
             m = _messages.get(i);
             left = m.getDuration();
 
-            if (left > 0)
+            if (left > 0) {
                 m.setDuration(--left);
-            else
+            } else {
                 _messages.remove(i);
+            }
         }
     }
 
     public int subtractTime() {
-        if (_game.isPaused())
+        if (_game.isPaused()) {
             return this._time;
-        else
+        } else {
             return this._time--;
+        }
     }
 
     public Keyboard getInput() {
@@ -392,11 +440,11 @@ public class Board implements IRender {
     public int getLefts() {
         return _lefts;
     }
-    
+
     public void addPoints(int points) {
         this._points += points;
     }
-    
+
     public void addLefts(int left) {
         this._lefts += left;
     }
@@ -421,6 +469,5 @@ public class Board implements IRender {
 
         return false;
     }
-
 
 }

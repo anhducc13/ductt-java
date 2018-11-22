@@ -6,17 +6,23 @@ import uet.oop.bomberman.entities.character.enemy.Enemy;
 
 public class AIHigh extends AI {
     private AIMedium aiMedium;
-    private AIEvade aiEvade;
+    private EvadeBomb aiEvade;
+    
+    Board _board;
+    Enemy _e;
 
     public AIHigh(Bomber bomber, Enemy e, Board b) {
         aiMedium = new AIMedium(bomber, e);
-        aiEvade = new AIEvade(bomber, e, b);
+        aiEvade = new EvadeBomb(e, b);
+        _board = b;
+        _e = e;
     }
 
     @Override
     public int calculateDirection() {
-        int directionEvade = aiEvade.calculateDirection();
-        if (directionEvade != -1) return directionEvade;
+        if(!_board.getBomber().get_bombs().isEmpty()) {
+            return aiEvade.calculateDirection();
+        }
         return aiMedium.calculateDirection();
     }
 }

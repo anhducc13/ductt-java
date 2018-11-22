@@ -8,6 +8,7 @@ public class AudioGame {
     private static String PATH_GAME_OVER = "/audios/Sad_Violin.mp3";
     private static String PATH_DEATH = "/audios/The_Price_is_Right_Losing_Horn.mp3";
     private static String PATH_START_GAME = "/audios/The_Price_is_Right_Losing_Horn.mp3";
+    private static String PATH_LEVEL_COMPLETE = "/audios/Stage_Complete.mp3";
 
     private static Thread threadExplosion;
     private static Thread threadBackground;
@@ -16,6 +17,7 @@ public class AudioGame {
     private static Thread threadDeath;
     private static Thread threadStartGame;
     private static Thread threadGetItem;
+    private static Thread threadLevelComplete;
 
     public static void playExplosion() {
         threadExplosion = new Thread(new ThreadAudio(PATH_EXPLOSION));
@@ -25,6 +27,11 @@ public class AudioGame {
     public static void playGetItem() {
         threadGetItem = new Thread(new ThreadAudio(PATH_GET_ITEM));
         threadGetItem.start();
+    }
+    
+    public static void playLevelComplete() {
+        threadLevelComplete = new Thread(new ThreadAudio(PATH_LEVEL_COMPLETE));
+        threadLevelComplete.start();
     }
 
     public static void playDeath() {

@@ -9,9 +9,6 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
-import uet.oop.bomberman.audio.Audio;
-
-import javax.sound.sampled.Clip;
 import uet.oop.bomberman.audio.AudioGame;
 
 /**
@@ -27,7 +24,7 @@ public static final int TILES_SIZE = 16,
 
     public static final String TITLE = "BombermanGame";
 
-    private static final int BOMBRATE = 2;
+    private static final int BOMBRATE = 1;
     private static final int BOMBRADIUS = 1;
     private static final double BOMBERSPEED = 1.0;
 
@@ -40,6 +37,8 @@ public static final int TILES_SIZE = 16,
     protected static int bombRate = BOMBRATE;
     protected static int bombRadius = BOMBRADIUS;
     protected static double bomberSpeed = BOMBERSPEED;
+    
+    public static int _BombBeforeNextLevel = BOMBRATE;
 
 
     protected int _screenDelay = SCREENDELAY;
@@ -173,7 +172,7 @@ public static final int TILES_SIZE = 16,
     public static int getBombRadius() {
         return bombRadius;
     }
-
+    
     public static void addBomberSpeed(double i) {
         bomberSpeed += i;
     }

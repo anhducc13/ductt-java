@@ -14,6 +14,4 @@ public class BombItem extends Item {
         _active = true;
         Game.addBombRate(1);
     }
-
-
 }
