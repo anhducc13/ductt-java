@@ -36,7 +36,7 @@ public class Board implements IRender {
     private List<Message> _messages = new ArrayList<>();
     boolean loadAgain = false;
 
-    private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused
+    private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused 4: win
 
     private int _time = Game.TIME;
     private int _points = Game.POINTS;
@@ -106,7 +106,7 @@ public class Board implements IRender {
             if (_screenToShow == 3) {
                 AudioGame.resumeAudioEffect();
             }
-            if (_screenToShow == 1) {
+            if (_screenToShow == 1 || _screenToShow == 4) {
                 resetGame();
             }
         }
@@ -175,6 +175,12 @@ public class Board implements IRender {
         _game.pause();
     }
 
+    public void winGame() {
+        _screenToShow = 4;
+        _game.resetScreenDelay();
+        _game.pause();
+    }
+
     protected void detectPaused() {
         if (_input.back) {
             pausedGame();
@@ -211,6 +217,10 @@ public class Board implements IRender {
                 break;
             case 3:
                 _screen.drawPaused(g);
+                break;
+            case 4:
+                _screen.drawWinGame(g, _points);
+                AudioGame.playVictoryGame();
                 break;
         }
     }

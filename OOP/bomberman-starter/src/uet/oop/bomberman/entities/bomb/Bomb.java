@@ -35,6 +35,7 @@ public class Bomb extends AnimatedEntitiy {
             _timeToExplode--;
         } else {
             if (!_exploded) {
+                
                 explode();
             } else {
                 updateFlames();
@@ -91,14 +92,15 @@ public class Bomb extends AnimatedEntitiy {
 
         // @todo: tạo các Flame
         // @todo: radius flame.
+        
         int radius = Game.getBombRadius();
         Flame flame0 = new Flame((int) _x, (int) _y, 0, radius, _board);
         Flame flame1 = new Flame((int) _x, (int) _y, 1, radius, _board);
         Flame flame2 = new Flame((int) _x, (int) _y, 2, radius, _board);
         Flame flame3 = new Flame((int) _x, (int) _y, 3, radius, _board);
         _flames = new Flame[]{flame0, flame1, flame2, flame3};
-
         AudioGame.playExplosion();
+        
     }
 
     public FlameSegment flameAt(int x, int y) {

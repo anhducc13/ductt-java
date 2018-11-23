@@ -113,6 +113,7 @@ public class Bomber extends Character {
             double centerX = _x + _sprite.getRealWidth() / 2;
             double centerY = _y - _sprite.getRealHeight() / 2;
             placeBomb(Coordinates.pixelToTile(centerX), Coordinates.pixelToTile(centerY));
+            AudioGame.playDropBomb();
             Game.addBombRate(-1);
             _timeBetweenPutBombs = 30;  // Tương ứng với 30 khung hình.
         }

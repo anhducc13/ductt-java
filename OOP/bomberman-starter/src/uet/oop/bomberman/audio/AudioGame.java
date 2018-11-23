@@ -2,13 +2,15 @@ package uet.oop.bomberman.audio;
 
 public class AudioGame {
     private static String PATH_EXPLOSION = "/audios/Explosion.mp3";
-    private static String PATH_BACKGROUND = "/audios/Sneaky_Snitch.mp3";
+    private static String PATH_BACKGROUND = "/audios/mission.mp3";
     private static String PATH_WAIT = "/audios/Spongebob_2000_Years_Later.mp3";
     private static String PATH_GET_ITEM = "/audios/Sound_Get_Item.mp3";
     private static String PATH_GAME_OVER = "/audios/Sad_Violin.mp3";
     private static String PATH_DEATH = "/audios/The_Price_is_Right_Losing_Horn.mp3";
     private static String PATH_START_GAME = "/audios/The_Price_is_Right_Losing_Horn.mp3";
     private static String PATH_LEVEL_COMPLETE = "/audios/Stage_Complete.mp3";
+    private static String PATH_DROP_BOMB = "/audios/get_bomb.mp3";
+    private static String PATH_VICTORY = "/audios/winGame.mp3";
 
     private static Thread threadExplosion;
     private static Thread threadBackground;
@@ -18,6 +20,8 @@ public class AudioGame {
     private static Thread threadStartGame;
     private static Thread threadGetItem;
     private static Thread threadLevelComplete;
+    private static Thread threadDropBomb;
+    private static Thread threadVictory;
 
     public static void playExplosion() {
         threadExplosion = new Thread(new ThreadAudio(PATH_EXPLOSION));
@@ -38,6 +42,11 @@ public class AudioGame {
         threadDeath = new Thread(new ThreadAudio(PATH_DEATH));
         threadDeath.start();
     }
+    
+    public static void playDropBomb() {
+        threadDropBomb = new Thread(new ThreadAudio(PATH_DROP_BOMB));
+        threadDropBomb.start();
+    }
 
     public static void playBackground() {
         stopAudioBackground(threadBackground);
@@ -50,12 +59,12 @@ public class AudioGame {
         }
     }
 
-    public static void playStartGame() {
-        stopAudioBackground(threadStartGame);
+    public static void playVictoryGame() {
+        stopAudioBackground(threadVictory);
 
-        if (threadStartGame == null || !threadStartGame.isAlive()) {
-            threadStartGame = new Thread(new ThreadAudio(PATH_START_GAME));
-            threadStartGame.start();
+        if (threadVictory == null || !threadVictory.isAlive()) {
+            threadVictory = new Thread(new ThreadAudio(PATH_VICTORY));
+            threadVictory.start();
         }
     }
 
@@ -66,6 +75,7 @@ public class AudioGame {
             threadWait = new Thread(new ThreadAudio(PATH_WAIT));
             threadWait.start();
         }
+       
     }
 
     public static void playGameOver() {
@@ -92,8 +102,8 @@ public class AudioGame {
             threadBackground.stop();
         if (threadGameOver != null && threadGameOver.isAlive() && !hasThread(threadGameOver, notStop))
             threadGameOver.stop();
-        if (threadStartGame != null && threadStartGame.isAlive() && !hasThread(threadStartGame, notStop))
-            threadStartGame.stop();
+        if (threadVictory != null && threadVictory.isAlive() && !hasThread(threadVictory, notStop))
+            threadVictory.stop();
     }
 
     public static void stopAudioEffect(Thread... notStop) {
